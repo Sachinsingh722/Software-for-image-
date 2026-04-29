@@ -42,7 +42,35 @@ function generate() {
 
     prodImg.onload = () => {
       // Adjust position & size here
-      ctx.drawImage(prodImg, 150, 150, 200, 200);
+  // Center position calculate
+const x = canvas.width / 2 - 150;
+const y = canvas.height / 2 - 100;
+
+// Transparency (blend effect)
+ctx.globalAlpha = 0.9;
+
+// Rounded image function
+function drawRoundedImage(ctx, img, x, y, width, height, radius) {
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.lineTo(x + width - radius, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+  ctx.lineTo(x + width, y + height - radius);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  ctx.lineTo(x + radius, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+  ctx.lineTo(x, y + radius);
+  ctx.quadraticCurveTo(x, y, x + radius, y);
+  ctx.closePath();
+  ctx.clip();
+
+  ctx.drawImage(img, x, y, 300, 250);
+  ctx.restore();
+}
+
+// Call function
+drawRoundedImage(ctx, prodImg, x, y, 300, 250, 20);
     }
   }
 }
